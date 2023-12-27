@@ -7,10 +7,10 @@ const typeList = ['available', 'busy', 'unavailable'];
 
 const bikeSchema = new Schema(
   {
-    id: {
-      type: String,
-      required: true,
-    },
+    // id: {
+    //   type: String,
+    //   required: true,
+    // },
     name: {
       type: String,
       required: true,
@@ -51,7 +51,7 @@ const bikeSchema = new Schema(
 );
 
 const addSchema = Joi.object({
-  id: Joi.string().required(),
+  //   id: Joi.string().required(),
   name: Joi.string().required(),
   type: Joi.string()
     .valid(...typeList)
