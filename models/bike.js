@@ -51,8 +51,8 @@ const bikeSchema = new Schema(
 );
 
 const addSchema = Joi.object({
-  id: Joi.string().required(),
-  name: Joi.string().required(),
+  id: Joi.string().min(5).required(),
+  name: Joi.string().min(5).required(),
   type: Joi.string()
     .valid(...typeList)
     .required(),
@@ -60,19 +60,19 @@ const addSchema = Joi.object({
 
   size: Joi.number().required(),
   price: Joi.number().required(),
-  description: Joi.string().required(),
+  description: Joi.string().min(5).required(),
   favorite: Joi.boolean(),
 });
 
 const updateSchema = Joi.object({
-  id: Joi.string(),
-  name: Joi.string(),
+  id: Joi.string().min(5),
+  name: Joi.string().min(5),
   type: Joi.string().valid(...typeList),
   color: Joi.string(),
 
   size: Joi.number(),
   price: Joi.number(),
-  description: Joi.string(),
+  description: Joi.string().min(5),
   favorite: Joi.boolean(),
 });
 
