@@ -41,8 +41,28 @@ const deleteById = async (req, res) => {
   });
 };
 
+const updateBikeById = async (req, res) => {
+  const { bikeId } = req.params;
+
+  const bike = await Bike.findById(bikeId);
+  if (!bike) {
+    throw HttpError(404, 'Bike not found');
+  }
+
+  const updatedBike = await Bike.findByIdAndUpdate(
+    bikeId,
+    { ...req.body },
+    {
+      new: true,
+    }
+  );
+  res.status(200).json(updatedBike);
+};
+
 module.exports = {
   getAllBikes: ctrlWrapper(getAllBikes),
   add: ctrlWrapper(add),
   deleteById: ctrlWrapper(deleteById),
+
+  updateBikeById: ctrlWrapper(updateBikeById),
 };

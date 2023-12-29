@@ -3,14 +3,14 @@ const Joi = require('joi');
 
 const { HandleErrorMongoose } = require('../helpers');
 
-const typeList = ['available', 'busy', 'unavailable'];
+const typeList = ['Available', 'Busy', 'Unavailable'];
 
 const bikeSchema = new Schema(
   {
-    // id: {
-    //   type: String,
-    //   required: true,
-    // },
+    id: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -51,7 +51,7 @@ const bikeSchema = new Schema(
 );
 
 const addSchema = Joi.object({
-  //   id: Joi.string().required(),
+  id: Joi.string().required(),
   name: Joi.string().required(),
   type: Joi.string()
     .valid(...typeList)
@@ -64,8 +64,21 @@ const addSchema = Joi.object({
   favorite: Joi.boolean(),
 });
 
+const updateSchema = Joi.object({
+  id: Joi.string(),
+  name: Joi.string(),
+  type: Joi.string().valid(...typeList),
+  color: Joi.string(),
+
+  size: Joi.number(),
+  price: Joi.number(),
+  description: Joi.string(),
+  favorite: Joi.boolean(),
+});
+
 const schemas = {
   addSchema,
+  updateSchema,
 };
 
 bikeSchema.post('save', HandleErrorMongoose);

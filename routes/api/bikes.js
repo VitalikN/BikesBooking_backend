@@ -17,4 +17,12 @@ router.post(
 );
 router.delete('/:bikeId', authenticate, isValidId, ctrl.deleteById);
 
+router.patch(
+  '/:bikeId',
+  authenticate,
+  isValidId,
+  validateBody(schemas.updateSchema),
+  ctrl.updateBikeById
+);
+
 module.exports = router;
