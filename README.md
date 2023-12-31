@@ -51,3 +51,7 @@ Create a .env file in the root directory and add the following:
 - morgan: ^1.10.0
 - nanoid: ^3.3.7
 - nodemon (dev): ^3.0.2
+
+### Postman Api
+
+https://documenter.getpostman.com/view/26640456/2s9YsDkaqv
