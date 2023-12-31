@@ -2,20 +2,33 @@ const { HttpError, ctrlWrapper } = require('../helpers');
 const { Bike } = require('../models/bike');
 
 const getAllBikes = async (req, res) => {
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 20 } = req.query;
   const skip = (page - 1) * limit;
 
   const query = {};
+  const availableCount = await Bike.countDocuments({ type: 'Available' });
 
-  const total = await Bike.countDocuments(query);
-  const result = await Bike.find(query, '-createdAt -updatedAt', {
-    skip,
-    limit,
-  })
+  const busyCount = await Bike.countDocuments({ type: 'Busy' });
+
+  const allBikes = await Bike.find(query, '-createdAt -updatedAt')
     .populate('owner', 'name email')
     .sort({ price: 1 });
 
-  res.json({ total, data: result });
+  const result = allBikes.slice(skip, skip + limit);
+  const totalValue = allBikes.reduce((sum, bike) => sum + bike.price, 0);
+
+  const totalBikes = await Bike.countDocuments(query);
+  const averagePrice = totalBikes > 0 ? totalValue / totalBikes : 0;
+
+  res.json({
+    total: {
+      total: totalBikes,
+      available: availableCount,
+      busy: busyCount,
+      averagePrice,
+    },
+    data: result,
+  });
 };
 
 const add = async (req, res) => {
